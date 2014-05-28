@@ -2,6 +2,8 @@ package com.lish.view;
 
 
 import com.lish.domain.Employee;
+import com.lish.domain.Worker;
+import com.lish.util.MySessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -17,9 +19,34 @@ public class IndexView {
 
 
 	public static void main(final String[] args) throws Exception {
+
 		addEmployee();
 
+
+		//editEmployee();
+
+		//deleteEmployee();
+
+		addWorker();
+
 	}
+
+	private static void deleteEmployee(){
+		//获取一个会话。
+		Session session = MySessionFactory.getSession();
+		Transaction transaction=session.beginTransaction();
+
+		//获取要需改的用户
+		//load方法是可以通过主键来获取一个对象实例。和表的一条记录对应。
+		Employee employee =(Employee) session.load(Employee.class,2);
+
+		session.delete(employee);
+		transaction.commit();
+		session.close();
+
+	}
+
+
 
 
 
@@ -28,28 +55,55 @@ public class IndexView {
 		System.out.println("HelloWorld");
 
 		//添加一个雇员.
-		Employee employee=new Employee("liuxiang","lish516@qq.com",new Date());
-
-
-		//1.创建Configuration,该对象用于读取hiberante.cfg.xml并完成初始化。
-		Configuration configuration=new Configuration().configure();
-		//2.创建sessionFactory，这是一个重量级的类。应该做出单例。
-		SessionFactory sessionFactory=configuration.buildSessionFactory();
-		//3.创建session,相当于jdbc Connection
-		Session session=sessionFactory.openSession();
-		//4.对hibernate而言，要求程序员，在进行 增加 删除 修改的时候必须要使用事务提交。
+		Employee employee=new Employee("hanmeimei","lish516@gg.com",new Date());
+		//获取一个会话。
+		Session session = MySessionFactory.getSession();
 		Transaction transaction=session.beginTransaction();
-
-
 		//Insert...
 		//保存。=>insert into ... 被hibernate 封装起来了。
+
 		session.save(employee);
 
 		transaction.commit();
 		session.close();
 	}
 
-	//修改用户
 
+
+	//修改用户
+	private static void editEmployee(){
+		//获取一个会话。
+		Session session = MySessionFactory.getSession();
+		Transaction transaction=session.beginTransaction();
+
+		//获取要需改的用户
+		//load方法是可以通过主键来获取一个对象实例。和表的一条记录对应。
+		Employee employee =(Employee) session.load(Employee.class,1);
+
+		employee.setName("韩顺平");
+		employee.setEmail("hanshunping@126.com");
+		transaction.commit();
+		session.close();
+
+	}
+
+
+	//添加工人
+	private static void addWorker() {
+		System.out.println("Adding worker");
+
+		//添加一个工人.
+		Worker worker=new Worker("workerLishuang","lish516@126.com",new Date());
+		//获取一个会话。
+		Session session = MySessionFactory.getSession();
+		Transaction transaction=session.beginTransaction();
+		//Insert...
+		//保存。=>insert into ... 被hibernate 封装起来了。
+
+		session.save(worker);
+
+		transaction.commit();
+		session.close();
+	}
 
 }

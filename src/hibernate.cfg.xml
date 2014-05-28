@@ -13,9 +13,14 @@
 
 		<property name="show_sql">true</property>
 
-		<mapping resource="com/lish/domain/Employee.hbm.xml"/>
+		<!-- 让hibernate给我们自动创建表 -->
+		<!--create: 如果没有表则创建，如果有表，删除后再创建。-->
+		<!--update:没有表就创建，有表并且结构没变化不再创建，结构变化了就创建。-->
+		<property name="hbm2ddl.auto">update</property>
 
-		<!-- DB schema will be updated if needed -->
-		<!-- <property name="hbm2ddl.auto">update</property> -->
+		<mapping resource="com/lish/domain/Employee.hbm.xml"/>
+		<mapping class="com.lish.domain.Worker"/>
+
+
 	</session-factory>
 </hibernate-configuration>
