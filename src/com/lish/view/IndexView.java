@@ -17,12 +17,18 @@ public class IndexView {
 
 
 	public static void main(final String[] args) throws Exception {
+		addEmployee();
+
+	}
+
+
+
+	//添加用户
+	private static void addEmployee() {
 		System.out.println("HelloWorld");
 
 		//添加一个雇员.
 		Employee employee=new Employee("liuxiang","lish516@qq.com",new Date());
-
-
 
 
 		//1.创建Configuration,该对象用于读取hiberante.cfg.xml并完成初始化。
@@ -35,17 +41,15 @@ public class IndexView {
 		Transaction transaction=session.beginTransaction();
 
 
-
-
 		//Insert...
 		//保存。=>insert into ... 被hibernate 封装起来了。
 		session.save(employee);
 
 		transaction.commit();
 		session.close();
-
-
-
-
 	}
+
+	//修改用户
+
+
 }
