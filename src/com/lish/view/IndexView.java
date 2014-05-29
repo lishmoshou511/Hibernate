@@ -18,15 +18,45 @@ public class IndexView {
 
 	public static void main(final String[] args) throws Exception {
 
-		addEmployee();
+		//addEmployee();
 
 
 		//editEmployee();
 
 		//deleteEmployee();
 
-		addWorker();
+		//addWorker();
 
+		getEmployee();
+
+	}
+
+	private static void getEmployee(){
+		//获取一个会话。
+		Session session = MySessionFactory.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			//获取要需改的用户
+			//load方法是可以通过主键来获取一个对象实例。和表的一条记录对应。
+			Employee employee = (Employee) session.get(Employee.class, 4);
+
+			System.out.println("Employee:::::"+employee);
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException();
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
 	}
 
 	private static void deleteEmployee() {
@@ -35,7 +65,6 @@ public class IndexView {
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			session.beginTransaction();
 			//获取要需改的用户
 			//load方法是可以通过主键来获取一个对象实例。和表的一条记录对应。
 			Employee employee = (Employee) session.load(Employee.class, 2);
