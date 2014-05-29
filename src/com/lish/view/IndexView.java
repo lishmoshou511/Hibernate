@@ -5,9 +5,7 @@ import com.lish.domain.Employee;
 import com.lish.domain.Worker;
 import com.lish.util.MySessionFactory;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
 
 import java.util.Date;
@@ -33,7 +31,7 @@ public class IndexView {
 
 	private static void deleteEmployee() {
 		//获取一个会话。
-		Session session = MySessionFactory.getSession();
+		Session session = MySessionFactory.openSession();
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
@@ -68,7 +66,7 @@ public class IndexView {
 		//添加一个雇员.
 		Employee employee = new Employee("hanmeimei", "lish516@gg.com", new Date());
 		//获取一个会话。
-		Session session = MySessionFactory.getSession();
+		Session session = MySessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 		//Insert...
 		//保存。=>insert into ... 被hibernate 封装起来了。
@@ -83,7 +81,7 @@ public class IndexView {
 	//修改用户
 	private static void editEmployee() {
 		//获取一个会话。
-		Session session = MySessionFactory.getSession();
+		Session session = MySessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 
 		//获取要需改的用户
@@ -105,7 +103,7 @@ public class IndexView {
 		//添加一个工人.
 		Worker worker = new Worker("workerLishuang", "lish516@126.com", new Date());
 		//获取一个会话。
-		Session session = MySessionFactory.getSession();
+		Session session = MySessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 		//Insert...
 		//保存。=>insert into ... 被hibernate 封装起来了。

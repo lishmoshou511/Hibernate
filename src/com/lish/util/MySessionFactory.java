@@ -27,10 +27,18 @@ final public class MySessionFactory {
 			throw new ExceptionInInitializerError(ex);
 		}
 	}
-	public static Session getSession() throws HibernateException {
+
+
+	public static Session openSession() throws HibernateException {
+		System.out.println("SessionFactory 类型："+sessionFactory);
 		return sessionFactory.openSession();
 	}
 
+	//在session事务提交后会自动关闭。但是建议使用完毕后手动关闭。
+	public static Session getCurrentSession() throws HibernateException {
+
+		return sessionFactory.getCurrentSession();
+	}
 	private MySessionFactory(){
 
 	}
