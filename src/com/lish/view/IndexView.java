@@ -2,6 +2,7 @@ package com.lish.view;
 
 
 import com.lish.domain.Employee;
+import com.lish.domain.Student;
 import com.lish.domain.Worker;
 import com.lish.util.MySessionFactory;
 import org.hibernate.Query;
@@ -19,22 +20,148 @@ public class IndexView {
 
 
 	public static void main(final String[] args) throws Exception {
-
 		//addEmployee();
-
-
 		//editEmployee();
-
 		//deleteEmployee();
-
 		//addWorker();
-
 		//getEmployee();
-
 		//testGetCurrentSession();
 		//testQuery();
 
+		studyHQL4();
 
+	}
+
+	//4.参数注入
+	private static void studyHQL4(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+
+			//用?的方式注入
+			//List list = session.createQuery("from Student where sdept=? and sage>?").setString(0,"计算机系").setString(1,"20").list();
+			//用:name的方式注入
+			//这里可以连贯着写，也可以分开写。
+			List list = session.createQuery("from Student where sdept=:sdept and sage>:sage").setString("sdept","计算机系").setString("sage","20").list();
+
+			for(Object obj:list){
+				Student student=(Student)obj;
+				System.out.println(student.getSname()+student.getSage());
+			}
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+
+	//3.分页查询
+	private static void studyHQL3(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+			//按照学生的年龄从小到大取出第一个到第三个学生。相当于limit的两个参数了。
+			List list = session.createQuery("from Student order by sage").setFirstResult(2).setMaxResults(3).list();
+
+			for(Object obj:list){
+				Student student=(Student)obj;
+				System.out.println(student.getSname()+student.getSage());
+			}
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+
+	//2.检索学生的名字和系别。
+	private static void studyHQL2(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+
+			//检索学生的名字和所在系别。
+			//uniqueResult如果是多条记录，那么会抛异常的。
+			Student s=(Student)session.createQuery("from Student where sid=20050003").uniqueResult();
+			//Student s=(Student)session.get(Student.class,20050003);
+			System.out.println("学生姓名："+s.getSname());
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+	//1.检索所有的学生。<Student>
+	private static void studyHQL1(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+
+			List list = session.createQuery("from Student").list();
+
+			for(Object obj:list){
+				Student student=(Student)obj;
+				System.out.println(student.getSname()+" "+student.getSaddress());
+			}
+
+
+
+
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
 	}
 
 
