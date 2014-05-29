@@ -32,9 +32,11 @@ public class IndexView {
 		//getEmployee();
 
 		//testGetCurrentSession();
-		testQuery();
+		//testQuery();
+
 
 	}
+
 
 	//官方推荐的是query，同时还有criteria
 	private static void testQuery(){

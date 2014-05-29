@@ -24,6 +24,9 @@
 
 		<mapping resource="com/lish/domain/Employee.hbm.xml"/>
 		<mapping class="com.lish.domain.Worker"/>
+		<mapping class="com.lish.domain.Course"/>
+		<mapping class="com.lish.domain.Studcourse"/>
+		<mapping class="com.lish.domain.Student"/>
 
 
 	</session-factory>
