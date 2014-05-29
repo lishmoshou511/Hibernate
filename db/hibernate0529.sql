@@ -30,7 +30,7 @@ CREATE TABLE `employee` (
   `email` varchar(255) DEFAULT NULL,
   `hiredate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,8 +39,59 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES (1,'hanmeimei','lish516@gg.com','2014-05-28 22:33:23'),(2,'hanmeimei','lish516@gg.com','2014-05-28 22:33:35'),(3,'hanmeimei','lish516@gg.com','2014-05-28 22:33:47');
+INSERT INTO `employee` VALUES (1,'hanmeimei1','lish516@gg.com','2014-05-28 22:33:23'),(2,'hanmeimei2','lish516@gg.com','2014-05-28 22:33:35'),(3,'hanmeimei3','lish516@gg.com','2014-05-28 22:33:47'),(4,'hanmeimei4','lish516@gg.com','2014-05-29 08:40:20'),(5,'hanmeimei5','lish516@gg.com','2014-05-29 08:44:16'),(6,'hanmeimei','lish516@gg.com','2014-05-29 09:35:09');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `message`
+--
+
+DROP TABLE IF EXISTS `message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sender` varchar(64) DEFAULT NULL,
+  `getter` varchar(64) DEFAULT NULL,
+  `content` text,
+  `send_time` date DEFAULT NULL,
+  `attachement` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `message`
+--
+
+LOCK TABLES `message` WRITE;
+/*!40000 ALTER TABLE `message` DISABLE KEYS */;
+/*!40000 ALTER TABLE `message` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) DEFAULT NULL,
+  `password` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -56,7 +107,7 @@ CREATE TABLE `worker` (
   `hiredate` datetime DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +116,7 @@ CREATE TABLE `worker` (
 
 LOCK TABLES `worker` WRITE;
 /*!40000 ALTER TABLE `worker` DISABLE KEYS */;
-INSERT INTO `worker` VALUES (1,'lish516@126.com','2014-05-28 22:30:23','workerLishuang'),(2,'lish516@126.com','2014-05-28 22:30:33','workerLishuang'),(3,'lish516@126.com','2014-05-28 22:30:42','workerLishuang'),(4,'lish516@126.com','2014-05-28 22:33:24','workerLishuang'),(5,'lish516@126.com','2014-05-28 22:33:36','workerLishuang'),(6,'lish516@126.com','2014-05-28 22:33:48','workerLishuang');
+INSERT INTO `worker` VALUES (1,'lish516@126.com','2014-05-28 22:30:23','workerLishuang'),(2,'lish516@126.com','2014-05-28 22:30:33','workerLishuang'),(3,'lish516@126.com','2014-05-28 22:30:42','workerLishuang'),(4,'lish516@126.com','2014-05-28 22:33:24','workerLishuang'),(5,'lish516@126.com','2014-05-28 22:33:36','workerLishuang'),(6,'lish516@126.com','2014-05-28 22:33:48','workerLishuang'),(7,'lish516@126.com','2014-05-29 08:40:23','workerLishuang'),(8,'lish516@126.com','2014-05-29 08:44:18','workerLishuang');
 /*!40000 ALTER TABLE `worker` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -78,4 +129,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-29  0:01:13
+-- Dump completed on 2014-05-29 13:41:53

@@ -16,6 +16,12 @@ import org.hibernate.service.ServiceRegistryBuilder;
 final public class MySessionFactory {
 	private static final SessionFactory sessionFactory;
 	private static final ServiceRegistry serviceRegistry;
+
+	//线程局部变量模式
+	private static final ThreadLocal<Session> threadLocal=new ThreadLocal<Session>();
+
+
+
 	static {
 		try {
 			Configuration configuration = new Configuration();
@@ -29,6 +35,7 @@ final public class MySessionFactory {
 	}
 
 
+	//获取一个全新的session.
 	public static Session openSession() throws HibernateException {
 		System.out.println("SessionFactory 类型："+sessionFactory);
 		return sessionFactory.openSession();
@@ -39,8 +46,22 @@ final public class MySessionFactory {
 
 		return sessionFactory.getCurrentSession();
 	}
-	private MySessionFactory(){
+
+	//获取和线程关联的session
+	public static Session getMyCurrentSession(){
+		Session session=threadLocal.get();
+
+		//判断是否得到
+		if(session==null){
+			session=sessionFactory.openSession();
+
+			//把session对象设置到threadLocal,相当于该session对象已经和线程绑定。
+			threadLocal.set(session);
+		}
+
+		return session;
 
 	}
+	private MySessionFactory(){}
 
 }
