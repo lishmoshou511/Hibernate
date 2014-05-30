@@ -67,6 +67,34 @@ INSERT INTO `department` VALUES (1,'事务部'),(2,'财务部');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `drivecard`
+--
+
+DROP TABLE IF EXISTS `drivecard`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `drivecard` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `validateDate` datetime DEFAULT NULL,
+  `person` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_77b6evcvvtt97btaqhy1knf05` (`person`),
+  KEY `FK_77b6evcvvtt97btaqhy1knf05` (`person`),
+  CONSTRAINT `FK_77b6evcvvtt97btaqhy1knf05` FOREIGN KEY (`person`) REFERENCES `person` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `drivecard`
+--
+
+LOCK TABLES `drivecard` WRITE;
+/*!40000 ALTER TABLE `drivecard` DISABLE KEYS */;
+INSERT INTO `drivecard` VALUES (1,'2014-05-30 21:46:21',10);
+/*!40000 ALTER TABLE `drivecard` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `employee`
 --
 
@@ -90,6 +118,32 @@ LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
 INSERT INTO `employee` VALUES (1,'hanmeimei1','lish516@gg.com','2014-05-28 22:33:23'),(2,'hanmeimei2','lish516@gg.com','2014-05-28 22:33:35'),(3,'hanmeimei3','lish516@gg.com','2014-05-28 22:33:47'),(4,'hanmeimei4','lish516@gg.com','2014-05-29 08:40:20'),(5,'hanmeimei5','lish516@gg.com','2014-05-29 08:44:16'),(6,'hanmeimei','lish516@gg.com','2014-05-29 09:35:09');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `idcard`
+--
+
+DROP TABLE IF EXISTS `idcard`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `idcard` (
+  `id` int(11) NOT NULL,
+  `validateDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_24ugk33bey6mn3ytbt38ia1ba` (`id`),
+  CONSTRAINT `FK_24ugk33bey6mn3ytbt38ia1ba` FOREIGN KEY (`id`) REFERENCES `person` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `idcard`
+--
+
+LOCK TABLES `idcard` WRITE;
+/*!40000 ALTER TABLE `idcard` DISABLE KEYS */;
+INSERT INTO `idcard` VALUES (9,'2014-05-30 21:14:06');
+/*!40000 ALTER TABLE `idcard` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -133,7 +187,7 @@ CREATE TABLE `person` (
   PRIMARY KEY (`id`),
   KEY `FK_5v49ux19ea3g3aixfu4h0kb0a` (`dept_id`),
   CONSTRAINT `FK_5v49ux19ea3g3aixfu4h0kb0a` FOREIGN KEY (`dept_id`) REFERENCES `department` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +196,7 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,'宋江',2),(2,'武松',1),(3,'武大郎',1),(4,'鲁智深',2),(5,'呼延灼',1),(6,'时迁',1),(7,'笑面虎',1);
+INSERT INTO `person` VALUES (1,'宋江',2),(2,'武松',1),(3,'武大郎',1),(4,'鲁智深',2),(5,'呼延灼',1),(6,'时迁',1),(7,'笑面虎',1),(8,'李双',NULL),(9,'卢俊义',NULL),(10,'金刚葫芦娃',NULL);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,4 +318,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-30 20:35:34
+-- Dump completed on 2014-05-30 21:48:45

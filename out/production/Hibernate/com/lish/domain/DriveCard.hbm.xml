@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD//EN"
+		"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.lish.domain">
+	<class name="DriveCard">
+		<id name="id" type="java.lang.Integer">
+			<!--因为我们这里是基于主键的one-to-one，所以策略采用外键策略-->
+			<generator class="native"/>
+
+		</id>
+
+		<property name="validateDate" type="java.util.Date">
+			<column name="validateDate" length="64" not-null="false"/>
+		</property>
+
+		<!--many-to-one的一个特例就是one-to-one-->
+		<many-to-one name="person" unique="true">
+
+		</many-to-one>
+
+	</class>
+
+</hibernate-mapping>

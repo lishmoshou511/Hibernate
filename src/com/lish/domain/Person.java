@@ -14,4 +14,6 @@ public class Person implements Serializable {
 	@Setter @Getter private String name;
 	@Setter @Getter private Department dept;
 
+	@Setter @Getter private IdCard idCard;
+
 }

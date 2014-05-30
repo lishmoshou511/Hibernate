@@ -38,8 +38,80 @@ public class IndexView {
 
 
 		//one2many();
-		one2manyAdd();
+		//one2manyAdd();
+		//one2one();
 
+		one2one2();
+
+	}
+
+	//基于外键的一对一关系
+	private static void one2one2(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+			Person person1=new Person();
+			person1.setName("金刚葫芦娃");
+			DriveCard driveCard=new DriveCard();
+			driveCard.setValidateDate(new Date());
+
+			//表示idCard是属于person1对象的。
+			driveCard.setPerson(person1);
+			session.save(person1);
+			session.save(driveCard);
+
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+
+	private static void one2one(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+			Person person1=new Person();
+			person1.setName("卢俊义");
+			IdCard idCard=new IdCard();
+			idCard.setValidateDate(new Date());
+
+			//表示idCard是属于person1对象的。
+			idCard.setPerson(person1);
+			session.save(person1);
+			session.save(idCard);
+
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
 	}
 
 	private static void one2manyAdd(){
