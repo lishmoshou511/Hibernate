@@ -50,6 +50,7 @@ public class Student {
 
 		Student student = (Student) o;
 
+
 		if (sid != student.sid) return false;
 		if (saddress != null ? !saddress.equals(student.saddress) : student.saddress != null) return false;
 		if (sage != null ? !sage.equals(student.sage) : student.sage != null) return false;
