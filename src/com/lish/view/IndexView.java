@@ -1,10 +1,9 @@
 package com.lish.view;
 
 
-import com.lish.domain.Employee;
-import com.lish.domain.Student;
-import com.lish.domain.Worker;
+import com.lish.domain.*;
 import com.lish.util.MySessionFactory;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -28,7 +27,241 @@ public class IndexView {
 		//testGetCurrentSession();
 		//testQuery();
 
-		studyHQL4();
+		//studyHQL4();
+		//threeStates();
+		//many2one();
+		//lazyLoad();
+
+//		Person person=getPerson();
+//		System.out.println("姓名："+person.getName());
+//		System.out.println("所在部门："+person.getDept().getName());
+
+
+		//one2many();
+		one2manyAdd();
+
+	}
+
+	private static void one2manyAdd(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			Department department= (Department) session.get(Department.class,1);
+
+			Person person1=new Person();
+			person1.setName("笑面虎");
+			Person person2=new Person();
+			person2.setName("时迁");
+
+			department.getPersonSet().add(person1);
+			department.getPersonSet().add(person2);
+
+			for(Person person:department.getPersonSet()){
+				System.out.println("学生名字："+person.getName());
+			}
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+
+
+
+	private static void one2many(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			Department department= (Department) session.get(Department.class,1);
+
+			for(Person person:department.getPersonSet()){
+				System.out.println("学生名字："+person.getName());
+			}
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+
+	private static Person getPerson(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		Person person=null;
+		try {
+			transaction = session.beginTransaction();
+
+			//查询3号学生
+			person= (Person) session.get(Person.class,2);
+
+			//迫使将与person绑定的department 查询出来。
+			//Hibernate.initialize(person.getDept());
+			//person.getDept().getName();
+
+			//System.out.println("所在部门："+person.getDept().getName());
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return person;
+	}
+
+	private static void lazyLoad(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+			//查询3号学生
+			Person person= (Person) session.get(Person.class,3);
+			System.out.println("姓名："+person.getName());
+			System.out.println("所在部门："+person.getDept().getName());
+
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+
+	private static void many2one(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+			//添加一个人和一个部门，而且要把人分配到该部门中去。
+			Person person=new Person();
+			person.setName("宋江");
+			Department department=new Department();
+			department.setName("财务部");
+			person.setDept(department);
+
+			session.save(department);
+			session.save(person);
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+
+	//对象的三种状态
+	private static void threeStates(){
+
+		//c1在这里就是瞬时态。
+		Course c1=new Course();
+		c1.setCname("JS");
+		c1.setCcredit(5);
+		c1.setCid(2);
+
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+			//c1这时既处于sssion管理下，同时c1对象已经被保存到了数据库中。
+			//因此c1就是持久态了。
+			//这里会产生一个Insert语句
+			session.save(c1);
+
+			//接下来会产生一个update语句
+			c1.setCname(".Net");
+
+			System.out.println("*****************************");
+			c1.setCcredit(100);
+
+			session.delete(c1);
+
+			transaction.commit();
+
+
+
+
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+
+		//这是c1被保存到了数据库中，同时没有处于session管理下
+		//c1就是脱管态（游离态)
+
+		//这个地方的变化不会被hibernate检测到，因此也不会反应到数据库中
+		c1.setCname("ASP.Net");
+
+
+		System.out.println("名称："+c1.getCname()+" 学分："+c1.getCcredit());
+
 
 	}
 

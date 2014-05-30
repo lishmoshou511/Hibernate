@@ -28,6 +28,9 @@
 		<mapping class="com.lish.domain.Studcourse"/>
 		<mapping class="com.lish.domain.Student"/>
 
+		<mapping resource="com/lish/domain/Department.hbm.xml"/>
+		<mapping resource="com/lish/domain/Person.hbm.xml"/>
+
 
 	</session-factory>
 </hibernate-configuration>

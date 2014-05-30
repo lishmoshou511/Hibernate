@@ -3,10 +3,7 @@ package com.lish.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by lishuang on 2014/5/29.
@@ -24,6 +21,8 @@ public class Course {
 	@Basic
 	@Column(name = "ccredit", nullable = true, insertable = true, updatable = true)
 	@Getter @Setter private Integer ccredit;
+
+
 
 	@Override
 	public boolean equals(Object o) {
