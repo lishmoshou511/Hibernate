@@ -41,9 +41,71 @@ public class IndexView {
 		//one2manyAdd();
 		//one2one();
 
-		one2one2();
+		//one2one2();
+		many2many();
 
 	}
+	//	多对多
+	private static void many2many(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+			//添加两个学生，两门课程
+			S s1=new S();
+			s1.setName("李双11");
+			session.save(s1);
+			S s2=new S();
+			s2.setName("小萌11");
+			session.save(s2);
+
+			C c1=new C();
+			c1.setName("Jsp11");
+			session.save(c1);
+
+			C c2=new C();
+			c2.setName("Servlet11");
+			session.save(c2);
+
+			SC sc1=new SC();
+			sc1.setC(c1);
+			sc1.setS(s1);
+			sc1.setGrade(100);
+			session.save(sc1);
+
+			SC sc2=new SC();
+			sc2.setS(s2);
+			sc2.setC(c2);
+			sc2.setGrade(90);
+			session.save(sc2);
+
+			SC sc3=new SC();
+			sc3.setS(s1);
+			sc3.setC(c2);
+			sc3.setGrade(80);
+			session.save(sc3);
+
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+
+
+
 
 	//基于外键的一对一关系
 	private static void one2one2(){

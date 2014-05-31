@@ -33,5 +33,10 @@
 		<mapping resource="com/lish/domain/IdCard.hbm.xml"/>
 		<mapping resource="com/lish/domain/DriveCard.hbm.xml"/>
 
+		<mapping resource="com/lish/domain/S.hbm.xml"/>
+		<mapping resource="com/lish/domain/SC.hbm.xml"/>
+		<mapping resource="com/lish/domain/C.hbm.xml"/>
+
+
 	</session-factory>
 </hibernate-configuration>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD//EN"
+		"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.lish.domain">
+	<class name="SC" table="sc">
+		<id name="id" type="java.lang.Integer">
+			<generator class="native"/>
+
+		</id>
+
+		<property name="grade" type="java.lang.Integer">
+			<column name="grade" length="3"/>
+		</property>
+
+		<!--课程的多对一-->
+		<many-to-one name="c" column="c_id"/>
+
+		<many-to-one name="s" column="s_id"/>
+
+	</class>
+
+</hibernate-mapping>
