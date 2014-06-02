@@ -18,7 +18,7 @@
 
 
 		<!--这里配置Person和idCard属性是一对一的关系-->
-		<one-to-one name="idCard"/>
+		<one-to-one name="idCard" cascade="delete,save-update"/>
 
 	</class>
 

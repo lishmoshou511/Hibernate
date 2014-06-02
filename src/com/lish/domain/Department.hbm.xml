@@ -14,8 +14,8 @@
 		</property>
 
 		<!--配置one-to-many关系-->
-		<!--级联操作-->
-		<set name="personSet" cascade="save-update">
+		<!--级联操作,delete表示，当删除该部门的时候，级联删除从对象-->
+		<set name="personSet" cascade="delete,save-update">
 			<!--需要指定person对应的外键是哪个。-->
 			<key column="dept_id"/>
 			<one-to-many class="Person"/>

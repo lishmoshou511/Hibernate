@@ -10,7 +10,9 @@ import org.hibernate.Transaction;
 
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by InnoXYZ on 14-5-28.
@@ -42,9 +44,145 @@ public class IndexView {
 		//one2one();
 
 		//one2one2();
-		many2many();
+		//many2many();
+		//testCascade1();
+		//testCascade2();
+		testCascadeSave();
 
 	}
+
+	private static void testCascade2(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+			//演示删除级联操作
+			Department department= (Department) session.get(Department.class,3);
+			session.delete(department);
+
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+	private static void testCascadeSave(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+			Department department=new Department();
+			department.setName("董事部");
+
+
+
+			Person person1=new Person();
+			person1.setName("康熙皇帝");
+
+			Person person2=new Person();
+			person2.setName("雍正皇帝");
+
+
+
+			IdCard idCard1=new IdCard();
+			idCard1.setValidateDate(new Date());
+			idCard1.setPerson(person1);
+
+			IdCard idCard2=new IdCard();
+			idCard2.setValidateDate(new Date());
+			idCard2.setPerson(person2);
+
+			person1.setIdCard(idCard1);
+			person2.setIdCard(idCard2);
+
+			Set<Person> persons=new HashSet<Person>();
+			persons.add(person1);
+			persons.add(person2);
+			department.setPersonSet(persons);
+
+			session.save(department);
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+
+	private static void testCascade1(){
+		//获取一个会话。
+		Session session = MySessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+
+			Department department=new Department();
+			department.setName("董事部");
+
+
+
+			Person person1=new Person();
+			person1.setName("康熙皇帝");
+			person1.setDept(department);
+			Person person2=new Person();
+			person2.setName("雍正皇帝");
+			person2.setDept(department);
+
+			IdCard idCard1=new IdCard();
+			idCard1.setValidateDate(new Date());
+			idCard1.setPerson(person1);
+
+			IdCard idCard2=new IdCard();
+			idCard2.setValidateDate(new Date());
+			idCard2.setPerson(person2);
+
+			session.save(department);
+			session.save(person1);
+			session.save(person2);
+			session.save(idCard1);
+			session.save(idCard2);
+
+
+
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+	}
+
 	//	多对多
 	private static void many2many(){
 		//获取一个会话。
